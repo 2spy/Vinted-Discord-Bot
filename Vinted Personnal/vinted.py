@@ -33,15 +33,6 @@ vinted = Vinted("fr")
 async def on_ready():
     await bot.change_presence(activity=discord.Game(name="My Prefix : !"))
 
-@bot.command()
-async def changeurl(ctx, url):
-    with open("config.json", "r") as confg:
-        config = json.load(confg)
-    with open("config.json", 'w+') as confg:
-        config["url"] = str(url)
-        json.dump(config, confg, indent=4)
-    await ctx.send(f"{ctx.author.mention} **> Lien vinted changé !**")
-
 
 async def botrun(ctx, url):
     vinted = Vinted("fr")
