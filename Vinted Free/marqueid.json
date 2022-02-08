@@ -1,0 +1,68 @@
+{
+  "marque": ["nike", "lacoste", "adidas", "ralph", "carh", "tommy", "hm", "levis", "zara","tnf",
+    "stoneisland","arcteryx","palmangels","bape","stussy","vintage"],
+  "nike": {
+    "id": "53",
+    "salonid": 937786726003400704
+  },
+  "lacoste": {
+    "id": "304",
+    "salonid": 937786615009538122
+  },
+  "adidas": {
+    "id": "14",
+    "salonid": 937756185539538994
+  },
+  "ralph": {
+    "id": "88",
+    "salonid" : 937787061648384051
+  },
+  "carh": {
+    "id": "362",
+    "salonid": 937764066565443715
+  },
+  "tommy": {
+    "id": "94",
+    "salonid":  937788026678022234
+  },
+  "hm": {
+    "id": "7",
+    "salonid": 937787887662006282
+  },
+  "levis": {
+    "id": "10",
+    "salonid": 937787456017793055
+  },
+  "zara": {
+    "id": "12",
+    "salonid": 938712509098102874
+  },
+  "tnf": {
+    "id": "2319",
+    "salonid":938713241780105216
+  },
+  "stoneisland": {
+    "id": "73306",
+    "salonid": 938713738595414047
+  },
+  "arcteryx": {
+    "id": "319730",
+    "salonid": 938714098613485588
+  },
+  "palmangels": {
+    "id": "395367",
+    "salonid": 938715009838616646
+  },
+  "bape": {
+    "id": "4698593",
+    "salonid": 938715221806174238
+  },
+  "stussy": {
+    "id": "441",
+    "salonid": 938715606851678219
+  },
+  "vintage": {
+    "id": "573",
+    "salonid": 938716707785154571
+  }
+}
