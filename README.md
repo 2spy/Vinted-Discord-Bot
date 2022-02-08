@@ -1,1 +1,2 @@
-<h> Release at 20 stars </h>
+<h> Readme soon :) </h>
+<h1> Support -> https://discord.gg/tsJmbNfuy6</h1>
