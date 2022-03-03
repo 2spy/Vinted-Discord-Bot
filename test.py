@@ -1,1 +1,1 @@
-vinted coming soon at 40 star
+vinted coming soon at 30 stars
