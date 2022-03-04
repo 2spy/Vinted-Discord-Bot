@@ -87,7 +87,7 @@ async def moniteur(ctx, url, limit):
     try:
         z = search(str(url))
     except:
-        moniteur.restart(limit=5)
+        moniteur.restart(ctx,url,limit)
     count = 0
     try:
         x = z["items"]["catalogItems"]["byId"]
