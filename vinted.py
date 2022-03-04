@@ -83,7 +83,7 @@ async def on_ready():
 
 posting = []
 @tasks.loop(seconds=0)
-async def moniteur(url, limit, ctx):
+async def moniteur(ctx, url, limit):
     try:
         z = search(str(url))
     except:
@@ -117,8 +117,10 @@ async def moniteur(url, limit, ctx):
 
 @bot.command()
 async def sub(ctx,url, limit=2):
+    url2 = url
+    limit2 = limit
     await ctx.send("Le bot est lancé !")
-    await bot.loop.create_task(moniteur(url,limit,ctx))
+    moniteur.start(ctx,url2,limit2)
 
 
 with open("config.json", 'r') as config:
