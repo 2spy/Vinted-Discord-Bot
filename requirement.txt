@@ -1,0 +1,5 @@
+discord-py-slash-command
+discord
+bs4
+fade
+requests
