@@ -1,10 +1,10 @@
 import os
 import shutil
+import json, asyncio
 try:
     import requests
     from bs4 import BeautifulSoup
     import discord
-    import json, asyncio
     import fade
     from discord_slash import ButtonStyle, SlashCommand
     from discord_slash.utils.manage_components import *
