@@ -1,13 +1,20 @@
 import os
-import requests
-from bs4 import BeautifulSoup
-import discord
-from discord.ext import tasks, commands
-import json, asyncio
-import fade
-from discord_slash import ButtonStyle, SlashCommand
-from discord_slash.utils.manage_components import *
-from discord.ext import commands
+import shutil
+try:
+    import requests
+    from bs4 import BeautifulSoup
+    import discord
+    import json, asyncio
+    import fade
+    from discord_slash import ButtonStyle, SlashCommand
+    from discord_slash.utils.manage_components import *
+    from discord.ext import commands
+except:
+    os.system("pip install requests")
+    os.system("pip install discord")
+    os.system("pip install fade")
+    os.system("pip install bs4")
+    os.system("pip install discord-py-slash-command ")
 
 
 class Spy:
@@ -23,8 +30,7 @@ class Spy:
 
 def get_info_post(url):
     reponse = requests.get(
-        str(url),
-        timeout=5)
+        str(url))
     soup = BeautifulSoup(reponse.text, "html.parser")
 
     res = soup.findAll('script', {"class": "js-react-on-rails-component"})
@@ -45,6 +51,8 @@ def get_info_post(url):
     positive = userinfo["user"]["positive_feedback_count"]
     negative = userinfo["user"]["negative_feedback_count"]
     username = userinfo["user"]["login"]
+    pays = userinfo["user"]["country_title"]
+    ville = userinfo["user"]["city"]
 
     lesinfo = {}
     lesinfo["titre"] = titre
@@ -53,11 +61,13 @@ def get_info_post(url):
     lesinfo["positive"] = positive
     lesinfo["negative"] = negative
     lesinfo["username"] = username
+    lesinfo["pays"] = pays
+    lesinfo["ville"] = ville
     return lesinfo
 
 
 def search(url):
-    reponse = requests.get(str(url), timeout=1)
+    reponse = requests.get(str(url))
     soup = BeautifulSoup(reponse.text, "html.parser")
 
     res = soup.findAll('script')
@@ -75,127 +85,171 @@ def search(url):
     del z["items"]["catalogItems"]["ids"]
     return z
 
+with open("config.json", 'r') as config:
+    configs = json.load(config)
 
 intents = discord.Intents().all()
-bot = commands.Bot(command_prefix="$", intents=intents)
+bot = commands.Bot(command_prefix=configs["prefix"], intents=intents)
 bot.remove_command("help")
 
 os.system('cls')
 slash = SlashCommand(bot, SlashCommand)
 
+
 @bot.event
 async def on_ready():
     fadedtext = r"""
-                             ______
-                            /     /\
-                           /     /##\
-                          /     /####\
-                         /     /######\
-                        /     /########\
-                       /     /##########\
-                      /     /#####/\#####\
-                     /     /#####/++\#####\
-                    /     /#####/++++\#####\
-                   /     /#####/\+++++\#####\
-                  /     /#####/  \+++++\#####\
-                 /     /#####/    \+++++\#####\
-                /     /#####/      \+++++\#####\
-                        ███████╗██████╗ ██╗   ██╗
-                        ██╔════╝██╔══██╗╚██╗ ██╔╝
-                        ███████╗██████╔╝ ╚████╔╝ 
-                        ╚════██║██╔═══╝   ╚██╔╝  
-                        ███████║██║        ██║   
-                        ╚══════╝╚═╝        ╚═╝   
-           /     /#####/        \+++++\#####\
-          /     /#####/__________\+++++\#####\
-         /                        \+++++\#####\
-        /__________________________\+++++\####/
-        \+++++++++++++++++++++++++++++++++\##/
-         \+++++++++++++++++++++++++++++++++\/
-          ``````````````````````````````````
-    """
-    faded = fade.blackwhite(fadedtext)
-    print(faded)
+                                ██╗   ██╗██╗███╗   ██╗████████╗███████╗██████╗ 
+                                ██║   ██║██║████╗  ██║╚══██╔══╝██╔════╝██╔══██╗
+                                ██║   ██║██║██╔██╗ ██║   ██║   █████╗  ██║  ██║
+                                ╚██╗ ██╔╝██║██║╚██╗██║   ██║   ██╔══╝  ██║  ██║
+                                 ╚████╔╝ ██║██║ ╚████║   ██║   ███████╗██████╔╝
+                                  ╚═══╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝╚═════╝ 
+                                                  By 2$py#6495"""
+    faded = fade.water(fadedtext)
+    print(str(faded).center(shutil.get_terminal_size().columns))
     print(f"    {Spy.bleu}${Spy.blanc} System : {Spy.bleu}Welcome in Vinted Bot :) !")
     print(f"    {Spy.bleu}${Spy.blanc} System > {Spy.bleu}I'm connected to {bot.user.name} !")
-    print(f"    {Spy.bleu}${Spy.blanc} System > {Spy.bleu}My prefix is '$' !")
-    await bot.change_presence(activity=discord.Game(name="My Prefix : $"))
+    print(f"    {Spy.bleu}${Spy.blanc} System > {Spy.bleu}My prefix is '{configs['prefix']}' !")
+    await bot.change_presence(activity=discord.Game(name=configs["status"]))
 
 
 posting = []
 
 
-@tasks.loop(seconds=15)
-async def moniteur(ctx, url, limit):
-    url2 = url
-    ctx2 = ctx
-    try:
-        z = search(str(url))
-    except:
-        moniteur.restart(ctx, url2, limit=8)
-    count = 0
-    try:
-        x = z["items"]["catalogItems"]["byId"]
-        for post in x:
-            info = get_info_post(x[str(post)]["url"])
-            if count == limit:
-                break
-            if post in posting:
-                pass
-            else:
-                embed = discord.Embed(title="``👕``" + " " + x[post]['title'],
-                                      description=f"```fix\n{info['description']}```", url=x[post]['url'],
-                                      color=0x09b7be)
-                embed.add_field(name="**💶 Prix**", value=f"**└**``{x[post]['price']}€``", inline=True)
-                embed.add_field(name="**📏 Taille**", value=f"**└**``{x[post]['size_title']}``", inline=True)
-                embed.add_field(name="**🔖 Marque**", value=f"**└**``{x[post]['brand_title']}``", inline=True)
-                embed.add_field(name="**👍 Avis positif**", value=f"**└**``{str(info['positive'])}``", inline=True)
-                embed.add_field(name="**👎 Avis négatif**", value=f"**└**``{str(info['negative'])}``", inline=True)
-                embed.add_field(name="**🦾 Soon**", value=f"ㅤ", inline=True)
-                embed.set_image(url=x[post]["photo"]["thumbnails"][4]["url"])
-                embed.set_footer(text=f"👁️ Posté par : {info['username']}")
-                buttons = [
-                    create_button(style=ButtonStyle.URL, emoji="🛒",label="Acheter",url=str(info["buybutton"])),
-                ]
-                action_row = create_actionrow(*buttons)
-                msg = await ctx.send(embed=embed, components=[action_row])
-                posting.append(post)
-            count += 1
-            await asyncio.sleep(3)
+async def moniteur(channelid, url):
+    channel = bot.get_channel(channelid)
+    while True:
+        try:
+            z = search(str(url))
+        except Exception as err:
+            print(err)
+            pass
 
-    except:
-        await asyncio.sleep(2)
+        try:
+            x = z["items"]["catalogItems"]["byId"]
+            dictlist = list(x)
+            for i in range(7, -1, -1):
+                try:
+                    post = dictlist[i]
+
+                    try:
+                        info = get_info_post(x[str(post)]["url"])
+                    except Exception as err:
+                        continue
+
+                    if post in posting:
+                        continue
+                    else:
+                        embed = discord.Embed(title="``👕``" + " " + x[post]['title'],
+                                              description=f"```fix\n{info['description']}```", url=x[post]['url'],
+                                              color=0x09b7be)
+                        embed.add_field(name="**``💶`` Prix**", value=f"```yaml\n{x[post]['price']}€```", inline=True)
+                        embed.add_field(name="**``📏`` Taille**", value=f"```yaml\n{x[post]['size_title']}```",
+                                        inline=True)
+                        embed.add_field(name="**``🔖`` Marque**", value=f"```yaml\n{x[post]['brand_title']}```",
+                                        inline=True)
+                        embed.add_field(name="**``👍`` Avis positif**", value=f"```yaml\n{str(info['positive'])}```",
+                                        inline=True)
+                        embed.add_field(name="**``👎`` Avis négatif**", value=f"```yaml\n{str(info['negative'])}```",
+                                        inline=True)
+                        embed.add_field(name="**``📍`` Emplacement :**",
+                                        value=f"```yaml\n{info['pays']}, {info['ville']}```", inline=True)
+                        embed.set_image(url=x[post]["photo"]["thumbnails"][4]["url"])
+                        embed.set_footer(text=f"つ ◕_◕ ༽つ Posté par : {info['username']}")
+                        buttons = [
+                            create_button(style=ButtonStyle.URL, emoji="🛒", label="Acheter",
+                                          url=str(info["buybutton"])),
+                            create_button(style=ButtonStyle.URL, emoji="🔎", label="Détails",
+                                          url=str(x[str(post)]["url"])),
+                        ]
+                        action_row = create_actionrow(*buttons)
+                        await channel.send(embed=embed, components=[action_row])
+                        posting.append(post)
+                except:
+                    pass
+            await asyncio.sleep(5)
+
+        except:
+            pass
+
 
 
 @bot.command()
-async def sub(ctx, url, limit=8):
-    embed = discord.Embed(title="**__Merci d'utiliser le bot !__**",description="Vous utilisez la version 2 du bot !",color=0x09b7be)
-    embed.add_field(name="La recherche en cours :",value=f"```fix\n{url}```")
-    embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/939851736863105074/9a317142e664084d54c48a18ff46de40.webp?size=1024")
-    embed.add_field(name="Nomre de poste :",value=f"```fix\n{limit}```")
-    embed.set_footer(text="Dev by 2$py#6495")
-    await ctx.send(embed=embed)
-    moniteur.start(ctx, url, limit)
-
-@bot.command()
-async def stop(ctx):
-    if moniteur.is_running():
-        await ctx.send(f"{ctx.author.mention} - **Le bot a été stoppé !**")
-        moniteur.stop()
+async def sub(ctx, url):
+    if url in configs["suburl"]:
+        pass
     else:
-        await ctx.send(f"{ctx.author.mention} - **Le bot n'est pas lancé !**")
+        with open("config.json", 'w+') as config:
+            configs["suburl"][str(url)] = {}
+            configs["suburl"][str(url)]["channel"] = ctx.channel.id
+            json.dump(configs, config, indent=4)
+
+    task = asyncio.create_task(moniteur(ctx.channel.id, url))
+    embed = discord.Embed(title="❤ **__Merci d'utiliser le bot !__**",
+                          description="Vous utilisez la version 2 du bot !",
+                          color=0x09b7be)
+    embed.add_field(name="La recherche en cours :", value=f"```yaml\n{url}```")
+    embed.add_field(name="Nom de la tâche :",
+                    value=f"```yaml\n{task.get_name()}```")
+    embed.set_thumbnail(
+        url="https://cdn.discordapp.com/avatars/939851736863105074/9a317142e664084d54c48a18ff46de40.webp?size=1024")
+    embed.set_footer(text="つ ◕_◕ ༽つ Dev by 2$py#6495")
+    await ctx.send(embed=embed)
+    await task
+
+
+@bot.command()
+async def run(ctx):
+    task = ""
+    for suburl in configs["suburl"]:
+        if ctx.channel.id == configs["suburl"][str(suburl)]["channel"]:
+            task = asyncio.create_task(moniteur(ctx.channel.id, suburl))
+            embed = discord.Embed(title="❤ **__Merci d'utiliser le bot !__**",
+                                  description="```yaml\nVous utilisez la version 2 du bot !```",
+                                  color=0x09b7be)
+            embed.add_field(name="Lancement de la tache associé au salon :",
+                            value=f"```yaml\n{suburl}```")
+            embed.add_field(name="Nom de la tâche :",
+                            value=f"```yaml\n{task.get_name()}```")
+            embed.set_thumbnail(
+                url="https://cdn.discordapp.com/avatars/939851736863105074/9a317142e664084d54c48a18ff46de40.webp?size=1024")
+            embed.set_footer(text="つ ◕_◕ ༽つ Dev by 2$py#6495")
+            await ctx.send(embed=embed)
+            await task
+            break
+    await ctx.send(f"{ctx.author.mention} **- Aucun lien n'est affilié à ce salon !**")
+
+
+
+@bot.command()
+async def stop(ctx, name):
+    pending = asyncio.all_tasks()
+    for ele in pending:
+        if ele.get_name() == name:
+            ele.cancel()
+            await ctx.send(f"{ctx.author.mention} - **La tâche a été stoppé !**")
+            return
+    await ctx.send(f"{ctx.author.mention} - **Aucune tâche trouvé !**")
+
 
 @bot.command()
 async def help(ctx):
-    embed = discord.Embed(title="**__Bienvenue dans le menu d'aide du bot__**",description="Version actuelle du bot 2.0",color=0x09b7be)
+    embed = discord.Embed(title="🤖 **__Bienvenue dans le menu d'aide du bot__**",
+                          description="Version actuelle du bot 2.0", color=0x09b7be)
     embed.set_thumbnail(
         url="https://cdn.discordapp.com/avatars/939851736863105074/9a317142e664084d54c48a18ff46de40.webp?size=1024")
-    embed.add_field(name="$help",value="```fix\nOuvre le menu d'aide du bot```", inline=False)
-    embed.add_field(name="$sub",value="```fix\nLance le bot en fonction de l'url et de la limite```",inline=False)
-    embed.add_field(name="$stop",value="```fix\nEcrivez juste $stop et le bot s'arretera !```",inline=False)
-    embed.set_footer(text="Bot développé par : 2$py#6495")
+    embed.add_field(name="$help", value="```yaml\nOuvre le menu d'aide du bot```", inline=False)
+    embed.add_field(name="$sub", value="```yaml\nLance le bot en fonction de l'url```", inline=False)
+    embed.add_field(name="$stop", value="```yaml\nEcrivez juste $stop nom_de_la_tache et le bot stoppera la tâche!```", inline=False)
+    embed.add_field(name="$run", value="```yaml\nRelance la tâche associé au salon sans reécrire la commande $sub```", inline=False)
+    embed.add_field(name="$ping", value="```yaml\nAffiche le ping du bot !```", inline=False)
+    embed.set_footer(text="つ ◕_◕ ༽つ Dev by 2$py#6495")
     await ctx.send(embed=embed)
 
-with open("config.json", 'r') as config:
-    configs = json.load(config)
+@bot.command()
+async def ping(ctx):
+    await ctx.send(f'{ctx.author.mention} **- Latence du bot :** ``{round(bot.latency * 1000)} ms`` 🚀')
+
+
 bot.run(configs["token"])
