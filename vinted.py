@@ -165,19 +165,15 @@ async def moniteur(channelid, url):
                                           url=str(x[str(post)]["url"])),
                         ]
                         action_row = create_actionrow(*buttons)
-                        await channel.send("<@437681180284813334>")
                         await channel.send(embed=embed, components=[action_row])
                         posting.append(post)
-                        await asyncio.sleep(1)
                 except Exception as err:
                     print("L'erreur zebi : " + err)
                     continue
 
-            await asyncio.sleep(15)
-
-
         except Exception as err:
             pass
+        await asyncio.sleep(15)
 
 
 
