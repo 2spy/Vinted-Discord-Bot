@@ -55,6 +55,7 @@ def get_info_post(url):
 
 def search(url):
     try:
+        time.sleep(5)
         reponse = requests.get(str(url))
         print(reponse)
         soup = BeautifulSoup(reponse.text, "html.parser")
@@ -87,7 +88,6 @@ posting = []
 import random
 
 def moniteur(weburl, url):
-    time.sleep(random.randint(15,25))
     while True:
         try:
             z = search(str(url))
