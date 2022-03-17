@@ -185,5 +185,7 @@ if len(configs["suburl"]) > 5:
     print(f"{Spy.blanc}[{Spy.rouge}ERREUR{Spy.blanc}] - Trop de salon veuillez en enlever car le bot se fera rate limit !")
 else:
     for webhurl in configs["suburl"]:
+        print(f"{Spy.blanc}[{Spy.violet}LANCEMENT{Spy.blanc}] - Lance de la tâche dans le salon {configs['suburl'][webhurl]['salon']}")
+
         t = threading.Thread(target=moniteur, args=[webhurl, configs["suburl"][str(webhurl)]["url"]])
         t.start()
