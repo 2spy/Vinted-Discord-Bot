@@ -11,11 +11,25 @@ except:
     os.system("pip install bs4")
 
 
+class Spy:
+    gris = "\033[1;30;1m"
+    rouge = "\033[1;31;1m"
+    vert = "\033[1;32;1m"
+    jaune = "\033[1;33;1m"
+    bleu = "\033[1;34;1m"
+    violet = "\033[1;35;1m"
+    cyan = "\033[1;36;1m"
+    blanc = "\033[2;0;1m"
+
 
 def get_info_post(url):
     try:
+        time.sleep(5)
+        print(f"{Spy.blanc}[{Spy.jaune}RECHERCHE{Spy.blanc}] - Le bot recupere les informations de l'item...")
         reponse = requests.get(str(url))
-        print(reponse)
+        if 429 == reponse.status_code:
+            print(f"{Spy.blanc}[{Spy.rouge}ERREUR{Spy.blanc}] - Rate Limit !")
+            time.sleep(60)
         soup = BeautifulSoup(reponse.text, "html.parser")
 
         res = soup.findAll('script', {"class": "js-react-on-rails-component"})
@@ -55,8 +69,12 @@ def get_info_post(url):
 
 def search(url):
     try:
+        time.sleep(5)
+        print(f"{Spy.blanc}[{Spy.jaune}RECHERCHE{Spy.blanc}] - Le bot cherche des nouveaux items...")
         reponse = requests.get(str(url))
-        print(reponse)
+        if 429 == reponse.status_code:
+            print(f"{Spy.blanc}[{Spy.rouge}ERREUR{Spy.blanc}] - Rate Limit !")
+            time.sleep(60)
         soup = BeautifulSoup(reponse.text, "html.parser")
 
         res = soup.findAll('script')
@@ -84,85 +102,88 @@ os.system('cls')
 
 posting = []
 
-import random
 
-def moniteur(weburl, url):
-    time.sleep(random.randint(15,25))
-    while True:
-        try:
-            z = search(str(url))
-            x = z["items"]["catalogItems"]["byId"]
-            dictlist = list(x)
-            for i in range(8, 0, -1):
-                post = dictlist[i - 1]
-                if str(post) in posting:
-                    print("dedans")
-                    continue
-                else:
-                    info = get_info_post(x[str(post)]["url"])
+class moniteur:
+    def __init__(self, weburl, url):
+        while True:
+            try:
+                z = search(str(url))
+                x = z["items"]["catalogItems"]["byId"]
+                dictlist = list(x)
+                for i in range(8, 0, -1):
+                    time.sleep(1)
+                    post = dictlist[i - 1]
+                    if str(post) in posting:
+                        print(f"{Spy.blanc}[{Spy.rouge}{post}{Spy.blanc}] - Item déjà envoyé !")
+                        time.sleep(1)
+                        continue
+                    else:
+                        print(f"{Spy.blanc}[{Spy.vert}{post}{Spy.blanc}] - Nouvel item trouvé !")
+                        info = get_info_post(x[str(post)]["url"])
 
-                    data = {"username": "$py",
-                            "avatar_url": "https://cdn.discordapp.com/avatars/755734583005282334/158a0c81f5a3bd1f283bedd5f817a524.webp?size=1024",
-                            "embeds": [
-                                {
-                                    "description": f"```fix\n{info['description']}```",
-                                    "title": f"``👕`` **__{x[post]['title']}__**",
-                                    "url": x[post]['url'],
-                                    "fields": [
-                                        {
-                                            "name": "**``💶`` Prix**",
-                                            "value": f"```fix\n{x[post]['price']}€```",
-                                            "inline": True
+                        data = {"username": "$py",
+                                "avatar_url": "https://cdn.discordapp.com/avatars/755734583005282334/158a0c81f5a3bd1f283bedd5f817a524.webp?size=1024",
+                                "embeds": [
+                                    {
+                                        "description": f"```fix\n{info['description']}```",
+                                        "title": f"``👕`` **__{x[post]['title']}__**",
+                                        "url": x[post]['url'],
+                                        "fields": [
+                                            {
+                                                "name": "**``💶`` Prix**",
+                                                "value": f"```fix\n{x[post]['price']}€```",
+                                                "inline": True
+                                            },
+                                            {
+                                                "name": "**``📏`` Taille**",
+                                                "value": f"```fix\n{x[post]['size_title']}```",
+                                                "inline": True
+                                            },
+                                            {
+                                                "name": "**``🔖`` Marque**",
+                                                "value": f"```fix\n{x[post]['brand_title']}```",
+                                                "inline": True
+                                            },
+                                            {
+                                                "name": "``👍``/``👎`` **Avis**",
+                                                "value": f"```fix\n{str(info['positive'])} - {str(info['negative'])}```",
+                                                "inline": True
+                                            },
+                                            {
+                                                "name": "**``📍`` Emplacement **",
+                                                "value": f"```fix\n{info['pays']}, {info['ville']}```",
+                                                "inline": True
+                                            },
+                                            {
+                                                "name": "**``👨`` Auteur**",
+                                                "value": f"```fix\n{info['username']}```",
+                                                "inline": True
+                                            }
+                                        ],
+                                        "image": {
+                                            "url": x[post]["photo"]["thumbnails"][4]["url"]
                                         },
-                                        {
-                                            "name": "**``📏`` Taille**",
-                                            "value": f"```fix\n{x[post]['size_title']}```",
-                                            "inline": True
-                                        },
-                                        {
-                                            "name": "**``🔖`` Marque**",
-                                            "value": f"```fix\n{x[post]['brand_title']}```",
-                                            "inline": True
-                                        },
-                                        {
-                                            "name": "``👍``/``👎`` **Avis**",
-                                            "value": f"```fix\n{str(info['positive'])} - {str(info['negative'])}```",
-                                            "inline": True
-                                        },
-                                        {
-                                            "name": "**``📍`` Emplacement **",
-                                            "value": f"```fix\n{info['pays']}, {info['ville']}```",
-                                            "inline": True
-                                        },
-                                        {
-                                            "name": "**``👨`` Auteur**",
-                                            "value": f"```fix\n{info['username']}```",
-                                            "inline": True
+                                        "footer": {
+                                            "text": f"つ ◕_◕ ༽つ Merci d'utiliser mes programmes ! <3",
+                                            "icon_url": "https://cdn.discordapp.com/avatars/755734583005282334/158a0c81f5a3bd1f283bedd5f817a524.webp?size=1024"
                                         }
-                                    ],
-                                    "image": {
-                                        "url": x[post]["photo"]["thumbnails"][4]["url"]
-                                    },
-                                    "footer": {
-                                        "text": f"つ ◕_◕ ༽つ Merci d'utiliser mes programmes ! <3",
-                                        "icon_url": "https://cdn.discordapp.com/avatars/755734583005282334/158a0c81f5a3bd1f283bedd5f817a524.webp?size=1024"
-                                    }
-                                }]}
+                                    }]}
 
-                    result = requests.post(weburl, json=data)
-                    try:
-                        result.raise_for_status()
-                    except Exception as err:
-                        print(err)
-                    posting.append(str(post))
-                    time.sleep(6)
-            time.sleep(60)
-        except:
-            pass
+                        result = requests.post(weburl, json=data)
 
-waiting = 0
-for webhurl in configs["suburl"]:
-    t = threading.Thread(target=moniteur, args=[webhurl, configs["suburl"][str(webhurl)]["url"]])
-    time.sleep(waiting)
-    t.start()
-    waiting += 2
+                        if 429 == result.status_code:
+                            print(f"{Spy.blanc}[{Spy.rouge}ERREUR{Spy.blanc}] - Rate Limit !")
+                            time.sleep(60)
+                        posting.append(str(post))
+                time.sleep(60)
+            except:
+                time.sleep(20)
+
+
+
+if len(configs["suburl"]) > 5:
+    print(f"{Spy.blanc}[{Spy.rouge}ERREUR{Spy.blanc}] - Trop de salon veuillez en enlever car le bot se fera rate limit !")
+else:
+    for webhurl in configs["suburl"]:
+        t = threading.Thread(target=moniteur, args=[webhurl, configs["suburl"][str(webhurl)]["url"]])
+        t.start()
