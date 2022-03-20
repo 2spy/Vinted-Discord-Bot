@@ -95,8 +95,10 @@ def search(url):
 with open("config.json", 'r') as config:
     configs = json.load(config)
 
-os.system('cls')
-
+try:
+    os.system('cls')
+except:
+    os.system('clear')
 posting = []
 
 
