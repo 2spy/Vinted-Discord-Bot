@@ -8,7 +8,7 @@
 <img src="https://i.ibb.co/RgqYhDs/Capture.png"></img>
 </p>
 
-<p align="center"> Vous pouvez modifier la couleur du text, l'embed, les informations que vous voulez avoir
+<p align="left"> Vous pouvez modifier la couleur du text, l'embed, les informations que vous voulez avoir
 <img src="https://i.ibb.co/xM2jd6N/Capture.png"></img>
 </p>
  
