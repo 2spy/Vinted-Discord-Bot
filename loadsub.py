@@ -7,8 +7,10 @@ intents = discord.Intents().all()
 bot = commands.Bot(command_prefix="$", intents=intents)
 bot.remove_command("help")
 
-os.system('cls')
-
+try:
+    os.system('cls')
+except:
+    os.system('clear')
 with open("config.json", 'r') as config:
     configs = json.load(config)
 
@@ -71,7 +73,7 @@ async def change_color_text(ctx, color):
     for weburl in configs["suburl"]:
         if configs["suburl"][weburl]["salon"] == ctx.channel.name:
             with open("config.json", 'w+') as configedit:
-                configs["suburl"][webhook]["embed-color-text"] = color
+                configs["embed-color-text"] = color
                 json.dump(configs,configedit,indent=4)
             await ctx.send(f"{ctx.author.mention} - **✔️ La couleur du text de l'embed a été modifié avec succès !**")
             return
@@ -81,7 +83,7 @@ async def change_color_embed(ctx, color):
     for weburl in configs["suburl"]:
         if configs["suburl"][weburl]["salon"] == ctx.channel.name:
             with open("config.json", 'w+') as configedit:
-                configs["suburl"]["embed-color"] = color
+                configs["embed-color"] = color
                 json.dump(configs,configedit,indent=4)
             await ctx.send(f"{ctx.author.mention} - **✔️ La couleur de l'embed a été modifié avec succès !**")
             return
