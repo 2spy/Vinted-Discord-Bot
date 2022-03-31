@@ -47,7 +47,8 @@ async def change_url(ctx, new_url):
             with open("config.json", 'w+') as configedit:
                 configs["suburl"][str(weburl)]["url"] = str(new_url)
                 json.dump(configs,configedit,indent=4)
-    await ctx.send(f"{ctx.author.mention} - **✔️ Le lien du scrapping lié au salon {ctx.channel.name} a été modifié avec succès !**")
+            await ctx.send(f"{ctx.author.mention} - **✔️ Le lien du scrapping lié au salon {ctx.channel.name} a été modifié avec succès !**")
+            return
 
 @bot.command()
 async def remove_sub(ctx):
@@ -55,35 +56,35 @@ async def remove_sub(ctx):
     for weburl in configs["suburl"]:
         if configs["suburl"][weburl]["salon"] == ctx.channel.name:
             webhook = weburl
-    with open("config.json", 'w+') as configedit:
-        del configs["suburl"][webhook]
-        json.dump(configs,configedit,indent=4)
-    await ctx.send(f"{ctx.author.mention} - **✔️ Le lien du scrapping lié au salon {ctx.channel.name} a été supprimé avec succès !**")
+            with open("config.json", 'w+') as configedit:
+                del configs["suburl"][webhook]
+                json.dump(configs,configedit,indent=4)
+            await ctx.send(f"{ctx.author.mention} - **✔️ Le lien du scrapping lié au salon {ctx.channel.name} a été supprimé avec succès !**")
+            return
 
 @bot.command()
 async def change_color_text(ctx, color):
     if color not in ["fix","YAML"]:
         await ctx.send(f"{ctx.author.mention} - **❌ La couleur n'est pas disponible ! Essayez autre choses.**")
         return
-    webhook = None
+
     for weburl in configs["suburl"]:
         if configs["suburl"][weburl]["salon"] == ctx.channel.name:
-            webhook = weburl
-    with open("config.json", 'w+') as configedit:
-        configs["suburl"][webhook]["embed-color-text"] = color
-        json.dump(configs,configedit,indent=4)
-    await ctx.send(f"{ctx.author.mention} - **✔️ La couleur du text de l'embed a été modifié avec succès !**")
+            with open("config.json", 'w+') as configedit:
+                configs["suburl"][webhook]["embed-color-text"] = color
+                json.dump(configs,configedit,indent=4)
+            await ctx.send(f"{ctx.author.mention} - **✔️ La couleur du text de l'embed a été modifié avec succès !**")
+            return
 
 @bot.command()
 async def change_color_embed(ctx, color):
-    webhook = None
     for weburl in configs["suburl"]:
         if configs["suburl"][weburl]["salon"] == ctx.channel.name:
-            webhook = weburl
-    with open("config.json", 'w+') as configedit:
-        configs["suburl"][webhook]["embed-color"] = color
-        json.dump(configs,configedit,indent=4)
-    await ctx.send(f"{ctx.author.mention} - **✔️ La couleur de l'embed a été modifié avec succès !**")
+            with open("config.json", 'w+') as configedit:
+                configs["suburl"]["embed-color"] = color
+                json.dump(configs,configedit,indent=4)
+            await ctx.send(f"{ctx.author.mention} - **✔️ La couleur de l'embed a été modifié avec succès !**")
+            return
 
 @bot.command()
 async def help(ctx):
