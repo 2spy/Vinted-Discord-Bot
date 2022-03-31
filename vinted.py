@@ -35,10 +35,10 @@ def get_info_post(url):
         res = soup.findAll('div', {"class": "details-list__item-value"})
         res2 = soup.findAll('script', {"class": "js-react-on-rails-component"})
 
-        description = json.loads(res2[13].text.replace(
+        description = json.loads(res2[14].text.replace(
             '<script class="js-react-on-rails-component" data-component-name="ItemDescription" data-dom-id="ItemDescription-react-component-3d79657d-a1b5-4f1d-b501-2f470f328c66" type="application/json">',
             "").replace("</script>", ''))
-        userinfo = json.loads(res2[16].text.replace(
+        userinfo = json.loads(res2[17].text.replace(
             '<script class="js-react-on-rails-component" data-component-name="ItemUserInfo" data-dom-id="ItemUserInfo-react-component-2105d904-b161-47d1-bfce-9b897a8c1cc6" type="application/json">',
             '').replace("</script>", ''))
 
@@ -81,7 +81,7 @@ def search(url):
 
 
 
-        value = res[47].text.replace('<script data-js-react-on-rails-store="MainStore" type="application/json">', "")
+        value = res[48].text.replace('<script data-js-react-on-rails-store="MainStore" type="application/json">', "")
 
         z = json.loads(value)
         del z["intl"]
