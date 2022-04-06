@@ -128,7 +128,7 @@ class moniteur:
                 z = search(str(url))
                 x = z["items"]["catalogItems"]["byId"]
                 dictlist = list(x)
-                for i in range(9, 0, -1):
+                for i in range(9, -1, -1):
                     time.sleep(1)
                     post = dictlist[i - 1]
                     if str(post) in posting:
@@ -218,7 +218,7 @@ class moniteur:
                 time.sleep(10)
 
 
-if len(configs["suburl"]) > 5:
+if len(configs["suburl"]) > 10:
     print(
         f"{Spy.blanc}[{Spy.rouge}ERREUR{Spy.blanc}] - Trop de salon veuillez en enlever car le bot se fera rate limit !")
 else:
