@@ -15,7 +15,7 @@
  
 
 <h2 align="center"> 🔩 Comment setup le bot ?</h2>
-<p align="center"> Lien de la vidéo youtube :<a href="pas encore dispo"> cliquez ici</a></p>
+<p align="center"> Lien de la vidéo youtube :<a href="https://youtu.be/eaStcisD9ow"> cliquez ici</a></p>
 
 <h2 align="center"> 🛠️ Que peut-on faire avec le bot vinted</h2>
 <p align="center">
