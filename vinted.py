@@ -1,8 +1,9 @@
 import os
 import json
+import shutil
 import threading
 import time
-
+import sys
 try:
     import requests
     from bs4 import BeautifulSoup
@@ -19,7 +20,7 @@ class Spy:
     bleu = "\033[1;34;1m"
     violet = "\033[1;35;1m"
     cyan = "\033[1;36;1m"
-    blanc = "\033[2;0;1m"
+    blanc = "\033[1;0;1m"
 
 
 def get_info_post(url):
@@ -34,10 +35,10 @@ def get_info_post(url):
 
         res = soup.findAll('script', {"class": "js-react-on-rails-component"})
 
-        description = json.loads(res[15].text.replace(
+        description = json.loads(res[16].text.replace(
             '<script class="js-react-on-rails-component" data-component-name="ItemDescription" data-dom-id="ItemDescription-react-component-3d79657d-a1b5-4f1d-b501-2f470f328c66" type="application/json">',
             "").replace("</script>", ''))
-        userinfo = json.loads(res[18].text.replace(
+        userinfo = json.loads(res[19].text.replace(
             '<script class="js-react-on-rails-component" data-component-name="ItemUserInfo" data-dom-id="ItemUserInfo-react-component-2105d904-b161-47d1-bfce-9b897a8c1cc6" type="application/json">',
             '').replace("</script>", ''))
 
@@ -86,7 +87,7 @@ def get_info_post(url):
 def search(url):
     try:
         time.sleep(5)
-        print(f"{Spy.blanc}[{Spy.jaune}RECHERCHE{Spy.blanc}] - Le bot cherche des nouveaux items...")
+        print(f"{Spy.blanc}[{Spy.gris}RECHERCHE{Spy.blanc}] - Le bot cherche des nouveaux items...")
         reponse = requests.get(str(url))
         if 429 == reponse.status_code:
             print(f"{Spy.blanc}[{Spy.rouge}ERREUR{Spy.blanc}] - Rate Limit !")
@@ -118,9 +119,24 @@ try:
     os.system('cls')
 except:
     os.system('clear')
+
+
+
+asciiart = f"""{Spy.rouge}
+██╗   ██╗██████╗  ██████╗ ████████╗
+██║   ██║██╔══██╗██╔═══██╗╚══██╔══╝
+██║   ██║██████╔╝██║   ██║   ██║   
+╚██╗ ██╔╝██╔══██╗██║   ██║   ██║   
+ ╚████╔╝ ██████╔╝╚██████╔╝   ██║   
+  ╚═══╝  ╚═════╝  ╚═════╝    ╚═╝   
+         Thx 2$py#5430                     \n\n"""
+
+print(asciiart + "\n\n")
+
 posting = []
 
 
+sys.stdout.write("\x1b]2;Vinted Bot\x07")
 class moniteur:
     def __init__(self, weburl, url):
         while True:
@@ -224,7 +240,7 @@ if len(configs["suburl"]) > 10:
 else:
     for webhurl in configs["suburl"]:
         print(
-            f"{Spy.blanc}[{Spy.violet}LANCEMENT{Spy.blanc}] - Lance de la tâche dans le salon {configs['suburl'][webhurl]['salon']}")
+            f"{Spy.blanc}[{Spy.violet}LANCEMENT{Spy.blanc}] - Lancement de la tâche dans le salon {Spy.jaune}{configs['suburl'][webhurl]['salon']}")
 
         t = threading.Thread(target=moniteur, args=[webhurl, configs["suburl"][str(webhurl)]["url"]])
         t.start()
