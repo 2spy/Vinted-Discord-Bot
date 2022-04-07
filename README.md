@@ -26,4 +26,4 @@
      <li>- Modifier la couleur de l'embed et la couleur du texte</li>
 </ul>
 <h2 align="center"> 🎟️ En cas de problème ?</h2>
-<p align="center">Rejoignez nous sur le discord :<a href="discord.gg/spyy"> cliquez ici</a> et ouvrez un ticket le staff s'occupera de votre demande</p>
+<p align="center">Rejoignez nous sur le discord :<a href="https://discord.gg/spyy"> cliquez ici</a> et ouvrez un ticket le staff s'occupera de votre demande</p>
