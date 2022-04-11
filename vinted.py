@@ -2,10 +2,10 @@
 # Discord : discord.gg/spyy
 # Github : https://github.com/2spy/
 # Updated at : 04/07/2022 12:55
-# Version : 4.1
+# Version : 4.2
 # Description : Vinted Bot
 # Language : Python
-# Fix by : Freelancer#3528
+
 
 
 import os
@@ -109,22 +109,28 @@ def search(url):
         soup = BeautifulSoup(reponse.text, "html.parser")
 
         res = soup.findAll('script')
-        value = res[49].text.replace('<script z-js-react-on-rails-store="MainStore" type="application/json">', "")
+        indices = 0
+        for i in range(len(res) + 1):
+            if 'data-js-react-on-rails-store="MainStore"' in str(res[i]).split():
+                indices += i
+                break
+        value = res[indices].text.replace('<script z-js-react-on-rails-store="MainStore" type="application/json">', "")
         z = json.loads(value)
-
-        del z["intl"]
-        del z["session"]
-        del z["screen"]
-        del z["abTests"]
-        del z["auth"]
-        del z["savedSearches"]
-        del z["ads"]
-        del z["catalogFilters"]
-        del z["items"]["catalogItems"]["ids"]
+        try:
+            del z["intl"]
+            del z["session"]
+            del z["screen"]
+            del z["abTests"]
+            del z["auth"]
+            del z["savedSearches"]
+            del z["consent"]
+            del z["catalogFilters"]
+            del z["items"]["catalogItems"]["ids"]
+        except Exception as err:
+            print(err)
         return z
     except:
         pass
-
 
 with open("config.json", 'r') as config:
     configs = json.load(config)
