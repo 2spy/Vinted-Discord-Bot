@@ -2,7 +2,7 @@
 # Discord : discord.gg/spyy
 # Github : https://github.com/2spy/
 # Updated at : 04/07/2022 12:55
-# Version : 4.2
+# Version : 4.3
 # Description : Vinted Bot
 # Language : Python
 
@@ -47,10 +47,19 @@ def get_info_post(url):
 
         res = soup.findAll('script', {"class": "js-react-on-rails-component"})
 
-        description = json.loads(res[16].text.replace(
+        descindice = 0
+        userinfoindice = 0
+        for i in range(len(res)):
+            if 'data-component-name="ItemDescription"' in str(res[i]).split():
+                descindice = i
+            if 'data-component-name="ItemUserInfo"' in str(res[i]).split():
+                userinfoindice = i
+
+        description = json.loads(res[descindice].text.replace(
             '<script class="js-react-on-rails-component" data-component-name="ItemDescription" data-dom-id="ItemDescription-react-component-3d79657d-a1b5-4f1d-b501-2f470f328c66" type="application/json">',
             "").replace("</script>", ''))
-        userinfo = json.loads(res[19].text.replace(
+
+        userinfo = json.loads(res[userinfoindice].text.replace(
             '<script class="js-react-on-rails-component" data-component-name="ItemUserInfo" data-dom-id="ItemUserInfo-react-component-2105d904-b161-47d1-bfce-9b897a8c1cc6" type="application/json">',
             '').replace("</script>", ''))
 
@@ -87,8 +96,6 @@ def get_info_post(url):
             lesinfo["username"] = username
             lesinfo["pays"] = pays
             lesinfo["ville"] = ville
-            with open("test.json",'w+') as testjson:
-                json.dump(lesinfo,testjson,indent=4)
         except Exception as err:
             print(err)
         return lesinfo
@@ -116,18 +123,6 @@ def search(url):
                 break
         value = res[indices].text.replace('<script z-js-react-on-rails-store="MainStore" type="application/json">', "")
         z = json.loads(value)
-        try:
-            del z["intl"]
-            del z["session"]
-            del z["screen"]
-            del z["abTests"]
-            del z["auth"]
-            del z["savedSearches"]
-            del z["consent"]
-            del z["catalogFilters"]
-            del z["items"]["catalogItems"]["ids"]
-        except Exception as err:
-            print(err)
         return z
     except:
         pass
