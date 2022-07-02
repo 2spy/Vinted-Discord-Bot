@@ -35,7 +35,7 @@
    
 <li>6. Une fois toutes les dépendances d'installer, faire <code>python loadsub.py</code> et le bot va se connecter</li>
 <li>7. Retourner sur votre serveur, faire la commande <code>$sub (le lien de la recherche vinted)</code></li>
-<li>8. Votre recherche demandé, retourner dans le cmd, et faire <code>python vinted.py</code></li>
+<li>8. Votre recherche demandé, retourner dans le cmd, et faire <code>loadsub</code> puis <code>python vinted.py</code></li>
 
 
 <h2 align="center"> 🛠️ Que peut-on faire avec le bot vinted</h2>
