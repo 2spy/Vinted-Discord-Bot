@@ -1,29 +1,21 @@
-<h1 align="center">🛒 Vinted Bot 🛒</h1>
+# 🛒 Vinted Bot 🛒
 
+## 📷 Présentation du bot
+Voici quelques images d'articles du bot :
+![Image 1](https://i.ibb.co/TWWjGH8/Capture.png)
+![Image 2](https://i.ibb.co/RgqYhDs/Capture.png)
 
-<h2 align="center">📷 Présentation du bot</h2>
-<p align="center">Voici quelque image d'aticle du bot</p>
-<p align="center">
-<img align="center" src="https://i.ibb.co/TWWjGH8/Capture.png"></img>
-</p>
-<p align="center">
- <img src="https://i.ibb.co/RgqYhDs/Capture.png"></img>
- </p>
-<p align="center"> Vous pouvez modifier la couleur du text, l'embed, les informations que vous voulez avoir
-<img src="https://i.ibb.co/xM2jd6N/Capture.png"></img>
-</p>
- 
+Vous pouvez modifier la couleur du texte, de l'embed, ainsi que les informations que vous souhaitez afficher :
+![Modification](https://i.ibb.co/xM2jd6N/Capture.png)
 
-<h2 align="center"> 🔩 Comment setup le bot ?</h2>
-<p align="center"> Lien de la vidéo youtube :<a href="https://youtu.be/eaStcisD9ow"> cliquez ici</a></p>
+## 🔩 Comment configurer le bot ?
+Lien de la vidéo YouTube : [cliquez ici](https://youtu.be/eaStcisD9ow)
 
-<h2 align="center"> 🛠️ Que peut-on faire avec le bot vinted</h2>
-<p align="center">
-<ul><strong>Fonctionnalité :</strong>
-     <li>- Changer d'URL</li>
-     <li>- Supprimer un sub</li>
-     <li>- Modifier ce que vous voulez voir dans l'embed</li>
-     <li>- Modifier la couleur de l'embed et la couleur du texte</li>
-</ul>
-<h2 align="center"> 🎟️ En cas de problème ?</h2>
-<p align="center">Rejoignez nous sur le discord :<a href="https://discord.gg/7GbkaQeejT"> cliquez ici</a> et ouvrez un ticket le staff s'occupera de votre demande</p>
+## 🛠️ Que peut-on faire avec le bot Vinted
+- Changer l'URL
+- Supprimer un sous-domaine
+- Modifier les informations à afficher dans l'embed
+- Modifier la couleur de l'embed et la couleur du texte
+
+## 🎟️ En cas de problème ?
+Rejoignez-nous sur le Discord : [cliquez ici](https://discord.gg/7GbkaQeejT) et ouvrez un ticket. Le staff s'occupera de votre demande.
