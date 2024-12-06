@@ -1,2 +1,3 @@
-<p> Bientot de retour </p>
-> https://discord.gg/ux8utX7BE3
+<p>
+  Le code n'est plus à jour je ferai une mise à jour au plus vite !
+</p>
