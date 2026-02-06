@@ -1,0 +1,6 @@
+openapi: 3.0.0
+info:
+  title: Vinted Bot API
+  description: API to manage Vinted Bot alerts and configuration
+  version: 1.0.0
+paths: {}
